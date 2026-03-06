@@ -41,6 +41,7 @@
 </script>
 
 {#if visible}
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <div
         class="control-center"
         transition:fade={{ duration: 200 }}

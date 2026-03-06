@@ -4,24 +4,12 @@
 
     const base = import.meta.env.BASE_URL;
 
-    // Speech bubble messages - friendly greetings
-    const greetings = [
-        "Hey there! 👋",
-        "Hi! Welcome!",
-        "Hello friend! ✨",
-        "Nice to see you!",
-        "Let's explore!",
-    ];
+    // ═══════════════════════════════════════════════════════════════════════
+    // 🎯 DATA-DRIVEN GUIDE SYSTEM
+    // This system provides contextual guidance for navigating the portfolio
+    // ═══════════════════════════════════════════════════════════════════════
 
-    const messages = [
-        "I'm Shyam, a UX Designer",
-        "Click the dock to explore!",
-        "Hover over me! 😊",
-        "Try dragging me around!",
-        "Turning ideas into products ✨",
-        "Let's design something cool!",
-    ];
-
+    // Expression mappings - each emotion has a corresponding memoji
     const expressions = {
         default: "happy.png",
         waving: "hugging.png",
@@ -35,7 +23,305 @@
         angry: "angry.png",
         badWord: "bad_word.png",
         mindblown: "mind_blowing.png",
+        excited: "star_eye.png",
+        curious: "thinking.png",
+        proud: "victory.png",
+        friendly: "grinning.png",
+        love: "lovely.png",
     };
+
+    // 🎭 GUIDE MESSAGE DATABASE
+    // Each category contains messages with matching expressions
+    const guideData = {
+        // Initial welcome messages when user lands on site
+        welcome: [
+            { text: "Hey there! I'm Shyam! 👋", expression: "waving" },
+            { text: "Welcome to my portfolio! ✨", expression: "excited" },
+            { text: "I'll be your guide today!", expression: "happy" },
+            { text: "Ready to explore? Let's go!", expression: "waving" },
+        ],
+
+        // General idle messages to keep engagement
+        idle: [
+            {
+                text: "Click on the dock below to start! 👇",
+                expression: "friendly",
+            },
+            {
+                text: "Try the colorful icons at the bottom!",
+                expression: "waving",
+            },
+            {
+                text: "Each icon opens something cool! ✨",
+                expression: "excited",
+            },
+            { text: "Don't be shy, explore around!", expression: "friendly" },
+            { text: "Hover over me for a surprise! 😊", expression: "love" },
+            { text: "You can drag me around too!", expression: "happy" },
+        ],
+
+        // Context-specific guidance for each app/section
+        appGuide: {
+            about: {
+                hint: {
+                    text: "Tap 'About Me' to learn who I am! 👤",
+                    expression: "curious",
+                },
+                active: {
+                    text: "Here's my story! Scroll to discover more 📖",
+                    expression: "proud",
+                },
+                explore: [
+                    {
+                        text: "This is where you get to know me!",
+                        expression: "friendly",
+                    },
+                    {
+                        text: "Scroll down for the full journey! ⬇️",
+                        expression: "excited",
+                    },
+                    {
+                        text: "Fun facts about me inside! 🎯",
+                        expression: "waving",
+                    },
+                ],
+            },
+            experience: {
+                hint: {
+                    text: "Select 'Journey' to see my path! 🗺️",
+                    expression: "curious",
+                },
+                active: {
+                    text: "My professional journey awaits! 🚀",
+                    expression: "proud",
+                },
+                explore: [
+                    {
+                        text: "Every step shaped who I am! 🌟",
+                        expression: "excited",
+                    },
+                    {
+                        text: "Check out my timeline below! ⏳",
+                        expression: "friendly",
+                    },
+                    { text: "Experience that matters! �", expression: "proud" },
+                ],
+            },
+            portfolio: {
+                hint: {
+                    text: "Open 'Work' to see my projects! 💼",
+                    expression: "excited",
+                },
+                active: {
+                    text: "Here's what I've built! Take a look! 👀",
+                    expression: "proud",
+                },
+                explore: [
+                    {
+                        text: "Each project tells a story! 📚",
+                        expression: "friendly",
+                    },
+                    {
+                        text: "Click any project for details! 🔍",
+                        expression: "curious",
+                    },
+                    {
+                        text: "Design + Code = Magic! ✨",
+                        expression: "excited",
+                    },
+                ],
+            },
+            contact: {
+                hint: {
+                    text: "Click 'Contact' to message Shyam! 💬",
+                    expression: "love",
+                },
+                active: {
+                    text: "Let's connect! I'd love to hear from you! 💌",
+                    expression: "love",
+                },
+                explore: [
+                    {
+                        text: "Don't be a stranger, say hi! 👋",
+                        expression: "waving",
+                    },
+                    {
+                        text: "Email, LinkedIn, or just a hello! 📧",
+                        expression: "friendly",
+                    },
+                    {
+                        text: "I reply to every message! 💬",
+                        expression: "happy",
+                    },
+                ],
+            },
+            resume: {
+                hint: {
+                    text: "View 'Resume' for my credentials! 📄",
+                    expression: "proud",
+                },
+                active: {
+                    text: "My qualifications at a glance! 🎓",
+                    expression: "proud",
+                },
+                explore: [
+                    {
+                        text: "Download my resume anytime! 📥",
+                        expression: "friendly",
+                    },
+                    {
+                        text: "Skills, education & more inside! 📋",
+                        expression: "curious",
+                    },
+                    { text: "The professional me! 👨‍💼", expression: "proud" },
+                ],
+            },
+            welcome: {
+                hint: {
+                    text: "Click 'Welcome' for the intro! 🏠",
+                    expression: "waving",
+                },
+                active: {
+                    text: "The grand welcome experience! 🎉",
+                    expression: "excited",
+                },
+                explore: [
+                    {
+                        text: "This is where it all begins! ✨",
+                        expression: "excited",
+                    },
+                    {
+                        text: "Get the full intro here! 🌟",
+                        expression: "waving",
+                    },
+                ],
+            },
+        },
+
+        // Step-by-step onboarding for first-time visitors
+        onboarding: [
+            {
+                text: "Welcome! I'm Shyam Prasadh! 👋",
+                expression: "waving",
+                step: 1,
+            },
+            {
+                text: "I'm a UX Designer & Developer 🎨",
+                expression: "proud",
+                step: 2,
+            },
+            {
+                text: "See those icons at the bottom?",
+                expression: "curious",
+                step: 3,
+            },
+            {
+                text: "That's the dock! Click one to start!",
+                expression: "excited",
+                step: 4,
+            },
+            {
+                text: "Try 'About Me' first! 👤",
+                expression: "friendly",
+                step: 5,
+            },
+        ],
+
+        // Reactions when user interacts
+        interactions: {
+            hover: { text: "Hey you! 💖", expression: "love" },
+            click: { text: "Yay! You clicked me! 🎉", expression: "victory" },
+            drag: { text: "Wheee! This is fun! 🎢", expression: "excited" },
+            release: { text: "That was a ride! 😄", expression: "happy" },
+        },
+
+        // Achievement/milestone messages
+        achievements: {
+            firstApp: {
+                text: "Great! You opened your first app! 🎉",
+                expression: "victory",
+            },
+            explorer: {
+                text: "You're a natural explorer! 🗺️",
+                expression: "excited",
+            },
+            completedTour: {
+                text: "You've seen it all! Thank you! 🙏",
+                expression: "love",
+            },
+        },
+
+        // Contextual tips based on time spent
+        tips: [
+            {
+                text: "Pro tip: All windows are draggable! 🖱️",
+                expression: "curious",
+            },
+            {
+                text: "Try right-clicking the desktop! 🖱️",
+                expression: "curious",
+            },
+            {
+                text: "Did you notice the control center? ⚙️",
+                expression: "curious",
+            },
+            {
+                text: "The menu bar has cool stuff too! ☝️",
+                expression: "friendly",
+            },
+        ],
+    };
+
+    // Current guide state
+    let currentGuidePhase = "welcome"; // 'welcome', 'onboarding', 'idle', 'appContext'
+    let onboardingStep = 0;
+    let visitedApps = new Set();
+    let lastActiveApp = null;
+
+    // Helper to get a random item from an array
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Get contextual message based on current state
+    function getContextualMessage() {
+        // Check if there's an active window
+        const activeWindow = currentWindows.find((w) => !w.minimized);
+
+        if (activeWindow && guideData.appGuide[activeWindow.id]) {
+            const appGuide = guideData.appGuide[activeWindow.id];
+
+            // If this is a new app, show the active message
+            if (lastActiveApp !== activeWindow.id) {
+                lastActiveApp = activeWindow.id;
+                visitedApps.add(activeWindow.id);
+                return appGuide.active;
+            }
+
+            // Otherwise, show exploration tips
+            return getRandomItem(appGuide.explore);
+        }
+
+        // No active window - guide them to start
+        if (
+            visitedApps.size === 0 &&
+            onboardingStep < guideData.onboarding.length
+        ) {
+            return guideData.onboarding[onboardingStep];
+        }
+
+        // Show tips occasionally
+        if (Math.random() < 0.3 && visitedApps.size > 0) {
+            return getRandomItem(guideData.tips);
+        }
+
+        // Default to idle messages
+        return getRandomItem(guideData.idle);
+    }
+
+    // Legacy compatibility - greetings and messages arrays
+    const greetings = guideData.welcome.map((g) => g.text);
+    const messages = guideData.idle.map((m) => m.text);
 
     let currentExpression = expressions.waving;
     let currentMessage = greetings[0];
@@ -142,9 +428,52 @@
         // On mobile, CSS handles positioning
         if (isMobile()) return;
 
+        const prevWindows = [...currentWindows];
         currentWindows = state.windows;
         const visibleWindows = currentWindows.filter((w) => !w.minimized);
         hasActiveWindows = visibleWindows.length > 0;
+
+        // Check if a new window was opened
+        const newWindow = visibleWindows.find(
+            (w) => !prevWindows.some((p) => p.id === w.id && !p.minimized),
+        );
+
+        if (newWindow && guideData.appGuide[newWindow.id]) {
+            // Show contextual guide for the newly opened app
+            const appGuide = guideData.appGuide[newWindow.id];
+
+            // Track first app achievement
+            if (visitedApps.size === 0) {
+                // First app opened - show achievement after brief delay
+                addTimeout(() => {
+                    const achievement = guideData.achievements.firstApp;
+                    currentMessage = achievement.text;
+                    currentExpression = expressions[achievement.expression];
+                    showBubble = true;
+                }, 2500);
+            }
+
+            // Show the welcome message for this app
+            lastActiveApp = newWindow.id;
+            visitedApps.add(newWindow.id);
+            currentMessage = appGuide.active.text;
+            currentExpression = expressions[appGuide.active.expression];
+            showBubble = true;
+            isWaving = false;
+
+            // Check if user has explored most apps
+            if (
+                visitedApps.size ===
+                Object.keys(guideData.appGuide).length - 1
+            ) {
+                addTimeout(() => {
+                    const explorer = guideData.achievements.explorer;
+                    currentMessage = explorer.text;
+                    currentExpression = expressions[explorer.expression];
+                    showBubble = true;
+                }, 3000);
+            }
+        }
 
         if (!isDragging) {
             snapToSide();
@@ -152,7 +481,15 @@
     }
 
     function handleMouseMove(e) {
-        if (!widgetElement || isDragging || emotionalState !== "normal") return;
+        // Block ALL mouse interactions during drag, recovery, or any emotional state
+        if (
+            !widgetElement ||
+            isDragging ||
+            isRecovering ||
+            emotionalState !== "normal" ||
+            showFeelingBetter
+        )
+            return;
 
         const clientX = e.type.includes("touch")
             ? e.touches[0].clientX
@@ -200,24 +537,44 @@
     }
 
     function handleClick() {
-        if (emotionalState !== "normal") return;
-        currentExpression = expressions.victory;
-        currentMessage = "Yay! You clicked me! 🎉";
+        // Block clicks during drag, recovery, or any emotional state
+        if (
+            emotionalState !== "normal" ||
+            isDragging ||
+            isRecovering ||
+            showFeelingBetter
+        )
+            return;
+
+        // Use interaction data for click
+        const clickData = guideData.interactions.click;
+        currentExpression = expressions[clickData.expression];
+        currentMessage = clickData.text;
         showBubble = true;
         isWaving = false;
 
         addTimeout(() => {
             currentExpression = expressions.default;
-            cycleMessage();
+            showContextualGuide();
         }, 2000);
     }
 
     function handleMouseEnter() {
-        if (emotionalState !== "normal") return;
+        // Block hover during drag, recovery, or any emotional state
+        if (
+            emotionalState !== "normal" ||
+            isDragging ||
+            isRecovering ||
+            showFeelingBetter
+        )
+            return;
         isHovering = true;
         isWaving = false;
-        currentExpression = expressions.hover;
-        currentMessage = "Hey you! 💖";
+
+        // Use interaction data for hover
+        const hoverData = guideData.interactions.hover;
+        currentExpression = expressions[hoverData.expression];
+        currentMessage = hoverData.text;
         showBubble = true;
     }
 
@@ -228,23 +585,53 @@
         tiltY = 0;
     }
 
+    // ═══════════════════════════════════════════════════════════════════════
+    // 🎯 CONTEXTUAL GUIDE - Shows appropriate message based on current state
+    // ═══════════════════════════════════════════════════════════════════════
+    function showContextualGuide() {
+        const guide = getContextualMessage();
+        currentMessage = guide.text;
+        currentExpression =
+            expressions[guide.expression] || expressions.default;
+        showBubble = true;
+
+        // Progress onboarding if applicable
+        if (
+            visitedApps.size === 0 &&
+            onboardingStep < guideData.onboarding.length - 1
+        ) {
+            onboardingStep++;
+        }
+    }
+
+    // Legacy function - now calls contextual guide
     function cycleMessage() {
         if (isWaving) {
-            messageIndex = (messageIndex + 1) % greetings.length;
-            currentMessage = greetings[messageIndex];
+            // During wave, show welcome messages
+            const welcomeMsg = getRandomItem(guideData.welcome);
+            currentMessage = welcomeMsg.text;
+            currentExpression = expressions[welcomeMsg.expression];
         } else {
-            messageIndex = (messageIndex + 1) % messages.length;
-            currentMessage = messages[messageIndex];
+            // Show contextual guide based on app state
+            showContextualGuide();
         }
     }
 
     function doWave() {
-        if (emotionalState !== "normal") return;
-        // Wave animation - alternate expressions
+        // Block wave during drag, recovery, or emotional states
+        if (
+            emotionalState !== "normal" ||
+            isDragging ||
+            isRecovering ||
+            showFeelingBetter
+        )
+            return;
+        // Wave animation - get random welcome message with matching expression
         isWaving = true;
-        currentExpression = expressions.waving;
-        currentMessage =
-            greetings[Math.floor(Math.random() * greetings.length)];
+
+        const welcomeMsg = getRandomItem(guideData.welcome);
+        currentExpression = expressions[welcomeMsg.expression];
+        currentMessage = welcomeMsg.text;
         showBubble = true;
 
         addTimeout(() => {
@@ -263,8 +650,10 @@
             isWaving = false;
             if (!isHovering && !isDragging) {
                 currentExpression = expressions.default;
+                // After waving, show contextual guide
+                showContextualGuide();
             }
-        }, 2000);
+        }, 2500);
     }
 
     function pickNewTarget() {
@@ -279,7 +668,13 @@
 
     function animate() {
         // Smooth movement towards target + Run away logic
-        if (!isDragging && emotionalState === "normal") {
+        // Block flee behavior during recovery
+        if (
+            !isDragging &&
+            emotionalState === "normal" &&
+            !isRecovering &&
+            !showFeelingBetter
+        ) {
             let moveX = targetX;
             let moveY = targetY;
 
@@ -541,32 +936,60 @@
         }
         unsubscribe = windowStore.subscribe(checkWindows);
 
-        // Initial wave
-        setTimeout(doWave, 1000);
+        // ═══════════════════════════════════════════════════════════════════════
+        // 🎬 ONBOARDING SEQUENCE - Welcome new users with a guided intro
+        // ═══════════════════════════════════════════════════════════════════════
 
-        // Wave periodically (every 15 seconds)
+        // Set initial onboarding message
+        const firstOnboarding = guideData.onboarding[0];
+        currentMessage = firstOnboarding.text;
+        currentExpression = expressions[firstOnboarding.expression];
+        showBubble = true;
+
+        // Initial wave after brief delay
+        setTimeout(doWave, 1500);
+
+        // Progress through onboarding steps automatically
+        setTimeout(() => {
+            if (visitedApps.size === 0) {
+                onboardingStep = 1;
+                showContextualGuide();
+            }
+        }, 4000);
+
+        setTimeout(() => {
+            if (visitedApps.size === 0) {
+                onboardingStep = 2;
+                showContextualGuide();
+            }
+        }, 8000);
+
+        // Wave periodically (every 20 seconds when idle)
         waveInterval = setInterval(() => {
             if (
                 !isHovering &&
                 !isDragging &&
                 emotionalState === "normal" &&
-                !showFeelingBetter
+                !showFeelingBetter &&
+                !hasActiveWindows // Don't wave when user is exploring apps
             ) {
                 doWave();
             }
-        }, 15000);
+        }, 20000);
 
-        // Cycle messages every 5 seconds
+        // Cycle contextual messages every 6 seconds
         messageInterval = setInterval(() => {
             if (
                 !isHovering &&
                 !isWaving &&
                 emotionalState === "normal" &&
-                !showFeelingBetter
+                !showFeelingBetter &&
+                !isRecovering &&
+                !isDragging
             ) {
-                cycleMessage();
+                showContextualGuide();
             }
-        }, 5000);
+        }, 6000);
 
         // Pick new movement target every 10 seconds (only when no windows)
         moveInterval = setInterval(() => {
@@ -809,11 +1232,11 @@
         }
     }
 
-    /* Main Memoji - BIGGER */
+    /* Main Memoji - Smaller visual size but easier to grab */
     .memoji-avatar {
         position: relative;
-        width: 200px;
-        height: 200px;
+        width: 150px; /* Reduced from 200px */
+        height: 150px; /* Reduced from 200px */
         background: linear-gradient(
             145deg,
             rgba(255, 255, 255, 0.95),
@@ -835,7 +1258,7 @@
             0 0 0 2px rgba(255, 255, 255, 0.6) inset;
         pointer-events: auto;
         user-select: none;
-        overflow: hidden;
+        overflow: visible;
         /* Background tint instead of overlay */
         background: linear-gradient(
                 145deg,
@@ -848,6 +1271,25 @@
                 rgba(255, 255, 255, 0.8)
             );
         background-blend-mode: overlay;
+    }
+
+    /* Invisible expander creates a large draggable hit area around the memoji */
+    .memoji-avatar::after {
+        content: "";
+        position: absolute;
+        top: -50px;
+        left: -50px;
+        right: -50px;
+        bottom: -50px;
+        border-radius: 50%;
+        cursor: grab;
+        z-index: 10;
+    }
+
+    /* Ensure cursor changes during all interaction modes */
+    .memoji-avatar:hover:not(.is-dragging),
+    .memoji-avatar::after:hover:not(.widget-container.is-dragging *) {
+        cursor: grab;
     }
 
     /* .pop-emoji {
